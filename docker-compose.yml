@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  web:
+    container_name: php-2
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./php:/var/www/html/
+    environment:
+      - VAULT_KEY=${VAULT_KEY}
+      - VAULT_TOKEN=${VAULT_TOKEN}
+    ports:
+      - 8000:80
+  db:
+    container_name: mysqldb-2
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tradie-db.cmweadjdggsz.us-east-1.rds.amazonaws.com
+      MYSQL_USER: mydb2022
+      MYSQL_PASSWORD: admin777
+    ports:
+      - 6034:3306
